@@ -1,0 +1,14 @@
+html,
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background: #646464;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: url("./assets/cursor.png") 3 3, pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
