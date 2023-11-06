@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { useDrag } from "./hooks/useDrag";
 import { useRef, useState } from "react";
 import { useResize } from "./hooks/useResize";
-import { Point, Size } from "../../utils/Dimensions";
 import { useTerminal } from "../TerminalContext";
 import { useSelected } from "./hooks/useSelected";
 import { ResizeHandle } from "./ResizeHandle";
+import { BoxNodeData, useEditor } from "../EditorContext";
 
 const BoxNodeStyle = styled.div`
   background: #8f5f9d;
@@ -55,49 +55,55 @@ function createBoxText(width: number, height: number) {
   return lines.join("\n");
 }
 
-interface BoxNodeProps {}
+interface BoxNodeProps {
+  data: BoxNodeData;
+}
 
-export function BoxNode(props: BoxNodeProps) {
+export function BoxNode({ data }: BoxNodeProps) {
+  const editor = useEditor();
   const term = useTerminal();
-
-  const [isSelected, setSelected] = useState<boolean>(false);
-  const [size, setSizeRaw] = useState<Size>({ width: 8, height: 8 });
-
-  function setSize(n: Size) {
-    setSizeRaw({
-      width: n.width >= 2 ? n.width : 2,
-      height: n.height >= 2 ? n.height : 2,
-    });
-  }
-
-  const [position, setPosition] = useState<Point>({ x: 5, y: 10 });
 
   const $elementRef = useRef<HTMLDivElement>(null);
   const $resizeHandleRef = useRef<HTMLSpanElement>(null);
 
-  useSelected({ nodeRef: $elementRef, setSelected });
+  useSelected({ nodeRef: $elementRef, nodeId: data.id });
 
   useResize({
     nodeRef: $elementRef,
     resizeHandleRef: $resizeHandleRef,
-    isSelected,
+    isSelected: data.isSelected,
     axis: "both",
-    setSize,
+    setSize(n) {
+      editor.updateNode({
+        id: data.id,
+        size: {
+          width: n.width >= 2 ? n.width : 2,
+          height: n.height >= 2 ? n.height : 2,
+        },
+      });
+    },
   });
 
-  useDrag({ size, setPosition, nodeRef: $elementRef, isSelected });
+  useDrag({
+    nodeRef: $elementRef,
+    isSelected: data.isSelected,
+    size: data.size,
+    setPosition(p) {
+      editor.updateNode({ id: data.id, position: p });
+    },
+  });
 
   return (
     <BoxNodeStyle
-      x-selected={isSelected.toString()}
+      x-selected={data.isSelected.toString()}
       ref={$elementRef}
       style={{
-        left: position.x * term.columnWidth,
-        top: position.y * term.rowHeight,
-        width: size.width * term.columnWidth,
-        height: size.height * term.rowHeight,
+        left: data.position.x * term.columnWidth,
+        top: data.position.y * term.rowHeight,
+        width: data.size.width * term.columnWidth,
+        height: data.size.height * term.rowHeight,
       }}>
-      {createBoxText(size.width, size.height)}
+      {createBoxText(data.size.width, data.size.height)}
       <ResizeHandle className="resizeHandle" ref={$resizeHandleRef} />
     </BoxNodeStyle>
   );

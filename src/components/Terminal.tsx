@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { TextNode } from "./Node/TextNode";
 import { useTerminal } from "./TerminalContext";
 import { BoxNode } from "./Node/BoxNode";
+import { useEditor } from "./EditorContext";
 
 const TerminalWrapper = styled.div<{
   $fontSize: number;
@@ -38,11 +39,11 @@ const StyledTerminal = styled.div`
   width: calc(var(--term-cols) * 1ch);
   height: calc(var(--term-rows) * 1em);
   position: relative;
-  overflow: hidden;
 `;
 
 export function Terminal() {
   const terminal = useTerminal();
+  const editor = useEditor();
 
   return (
     <TerminalWrapper
@@ -51,10 +52,14 @@ export function Terminal() {
       $fontSize={terminal.fontSize}
       $fontFamily={terminal.fontFamily}>
       <StyledTerminal>
-        <BoxNode />
-        <TextNode content="😄" justifyContent="start" />
-        <TextNode content="!😄!" justifyContent="center" />
-        <TextNode content="Good Morning3" justifyContent="center" />
+        {Object.values(editor.nodes).map(node => {
+          switch (node.kind) {
+            case "box":
+              return <BoxNode key={node.id} data={node} />;
+            case "text":
+              return <TextNode key={node.id} data={node} />;
+          }
+        })}
       </StyledTerminal>
     </TerminalWrapper>
   );
