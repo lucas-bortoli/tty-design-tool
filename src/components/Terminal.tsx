@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { TextNode } from "./Node/TextNode";
 import { useTerminal } from "./TerminalContext";
 import { BoxNode } from "./Node/BoxNode";
-import { useEditor } from "./Node/EditorContext";
+import { useEditor } from "./EditorContext";
+import { ColorScheme } from "./types/ColorScheme";
 
 const TerminalWrapper = styled.div<{
+  $colorScheme: ColorScheme;
   $fontSize: number;
   $fontFamily: string;
   $rows: number;
@@ -21,8 +23,8 @@ const TerminalWrapper = styled.div<{
   transform: translate(-50%, -50%);
 
   border: 1px solid #969696;
-  background: #212121;
-  color: #fff;
+  background: ${props => props.$colorScheme.background};
+  color: ${props => props.$colorScheme.foreground};
   padding: 0;
   font-family: var(--font-family);
   box-sizing: content-box;
@@ -47,6 +49,7 @@ export function Terminal() {
 
   return (
     <TerminalWrapper
+      $colorScheme={terminal.colorScheme}
       $rows={terminal.rows}
       $cols={terminal.columns}
       $fontSize={terminal.fontSize}

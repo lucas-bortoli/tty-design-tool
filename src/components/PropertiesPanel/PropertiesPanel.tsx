@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { run } from "../../utils/run";
-import { useEditor } from "../Node/EditorContext";
+import { useEditor } from "../EditorContext";
 import { Panel } from "../Panel";
 import { useTerminal } from "../TerminalContext";
 import { PointInputGroup, SizeInputGroup } from "./PointInputGroup";
 import { TextInput } from "./TypedInput";
+import { SchemeColorPicker } from "../SchemeColorPicker";
 
 const PanelWithStyles = styled(Panel)`
   * {
@@ -56,6 +57,22 @@ export function PropertiesPanel() {
                 max={{ width: terminal.columns, height: 1 }}
                 value={selectedNode.size}
                 onChange={size => editor.updateNode({ id: selectedNode.id, size })}
+              />
+            </details>
+            <details open>
+              <summary>Color</summary>
+              Bg
+              <SchemeColorPicker
+                color={selectedNode.backgroundColor}
+                onChange={color =>
+                  editor.updateNode({ id: selectedNode.id, backgroundColor: color })
+                }
+              /> | Fg
+              <SchemeColorPicker
+                color={selectedNode.foregroundColor}
+                onChange={color =>
+                  editor.updateNode({ id: selectedNode.id, foregroundColor: color })
+                }
               />
             </details>
             {run(() => {

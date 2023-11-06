@@ -1,5 +1,5 @@
 import { MutableRefObject, useEffect, useRef } from "react";
-import { NodeId, useEditor } from "../EditorContext";
+import { NodeId, useEditor } from "../../EditorContext";
 import { useTerminal } from "../../TerminalContext";
 
 interface UseSelectedProps {

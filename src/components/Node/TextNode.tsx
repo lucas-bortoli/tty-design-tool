@@ -6,12 +6,11 @@ import { useResize } from "./hooks/useResize";
 import { useTerminal } from "../TerminalContext";
 import { useSelected } from "./hooks/useSelected";
 import { useEditText } from "./hooks/useEditText";
-import { TextNodeData, useEditor } from "./EditorContext";
+import { TextNodeData, useEditor } from "../EditorContext";
 import { ResizeHandle } from "./ResizeHandle";
+import { getColorFromScheme } from "../types/ColorScheme";
 
 const TextNodeStyle = styled.div`
-  background: #5f819d;
-  color: #fff;
   user-select: none;
   white-space: pre;
 
@@ -40,7 +39,7 @@ export function TextNode({ data }: TextNodeProps) {
 
   useSelected({
     nodeRef: $elementRef,
-    nodeId: data.id
+    nodeId: data.id,
   });
 
   useResize({
@@ -80,7 +79,12 @@ export function TextNode({ data }: TextNodeProps) {
     <TextNodeStyle
       x-selected={data.isSelected.toString()}
       ref={$elementRef}
-      style={{ left: data.position.x * term.columnWidth, top: data.position.y * term.rowHeight }}>
+      style={{
+        left: data.position.x * term.columnWidth,
+        top: data.position.y * term.rowHeight,
+        background: getColorFromScheme(term.colorScheme, data.backgroundColor),
+        color: getColorFromScheme(term.colorScheme, data.foregroundColor)
+      }}>
       {justifiedText}
       <ResizeHandle className="resizeHandle" ref={$resizeHandleRef} />
     </TextNodeStyle>

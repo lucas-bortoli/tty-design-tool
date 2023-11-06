@@ -1,5 +1,6 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { Point, Size } from "../../utils/Dimensions";
+import { Point, Size } from "../utils/Dimensions";
+import { ColorIdentifier } from "./types/ColorScheme";
 
 interface BaseNodeData {
   id: number;
@@ -11,12 +12,16 @@ interface BaseNodeData {
 
 export interface BoxNodeData extends BaseNodeData {
   kind: "box";
+  backgroundColor: ColorIdentifier;
+  foregroundColor: ColorIdentifier;
 }
 
 export interface TextNodeData extends BaseNodeData {
   kind: "text";
   content: string;
   justifyContent: "start" | "center" | "end";
+  backgroundColor: ColorIdentifier;
+  foregroundColor: ColorIdentifier;
 }
 
 export type NodeData = BoxNodeData | TextNodeData;
@@ -48,8 +53,6 @@ export function EditorProvider(props: PropsWithChildren) {
         const id = partialData.id;
         const previousData = nodes[id];
         const mergedData = Object.assign({}, previousData, partialData);
-
-        console.log(partialData);
 
         return { ...nodes, [id]: mergedData };
       });

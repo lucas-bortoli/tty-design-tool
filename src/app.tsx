@@ -2,7 +2,7 @@ import { PropertiesPanel } from "./components/PropertiesPanel/PropertiesPanel";
 import { Terminal } from "./components/Terminal";
 import styled from "styled-components";
 import { TerminalProvider } from "./components/TerminalContext";
-import { useEditor } from "./components/Node/EditorContext";
+import { useEditor } from "./components/EditorContext";
 import { useEffect } from "react";
 
 const StyledApp = styled.div`
@@ -32,6 +32,8 @@ export function App() {
       content: "Novo",
       justifyContent: "center",
       isSelected: false,
+      backgroundColor: 7,
+      foregroundColor: 0
     });
   }
 
@@ -54,6 +56,8 @@ export function App() {
                 size: { width: 2, height: 2 },
                 zIndex: 1,
                 isSelected: false,
+                backgroundColor: 6,
+                foregroundColor: 2
               })
             }>
             + caixa
