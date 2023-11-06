@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { TextNode } from "./Node/TextNode";
 import { useTerminal } from "./TerminalContext";
 import { BoxNode } from "./Node/BoxNode";
-import { useEditor } from "./EditorContext";
+import { useEditor } from "./Node/EditorContext";
 
 const TerminalWrapper = styled.div<{
   $fontSize: number;
@@ -23,7 +23,7 @@ const TerminalWrapper = styled.div<{
   border: 1px solid #969696;
   background: #212121;
   color: #fff;
-  padding: var(--font-size);
+  padding: 0;
   font-family: var(--font-family);
   box-sizing: content-box;
   box-shadow: 2px 2px 4px #00000080;
@@ -50,7 +50,8 @@ export function Terminal() {
       $rows={terminal.rows}
       $cols={terminal.columns}
       $fontSize={terminal.fontSize}
-      $fontFamily={terminal.fontFamily}>
+      $fontFamily={terminal.fontFamily}
+      ref={terminal.elementRef}>
       <StyledTerminal>
         {Object.values(editor.nodes).map(node => {
           switch (node.kind) {

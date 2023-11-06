@@ -5,7 +5,7 @@ import { useResize } from "./hooks/useResize";
 import { useTerminal } from "../TerminalContext";
 import { useSelected } from "./hooks/useSelected";
 import { ResizeHandle } from "./ResizeHandle";
-import { BoxNodeData, useEditor } from "../EditorContext";
+import { BoxNodeData, useEditor } from "./EditorContext";
 
 const BoxNodeStyle = styled.div`
   background: #8f5f9d;

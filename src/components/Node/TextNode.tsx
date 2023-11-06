@@ -6,7 +6,7 @@ import { useResize } from "./hooks/useResize";
 import { useTerminal } from "../TerminalContext";
 import { useSelected } from "./hooks/useSelected";
 import { useEditText } from "./hooks/useEditText";
-import { TextNodeData, useEditor } from "../EditorContext";
+import { TextNodeData, useEditor } from "./EditorContext";
 import { ResizeHandle } from "./ResizeHandle";
 
 const TextNodeStyle = styled.div`

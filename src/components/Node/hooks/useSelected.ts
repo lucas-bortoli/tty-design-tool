@@ -1,5 +1,6 @@
 import { MutableRefObject, useEffect, useRef } from "react";
-import { NodeId, useEditor } from "../../EditorContext";
+import { NodeId, useEditor } from "../EditorContext";
+import { useTerminal } from "../../TerminalContext";
 
 interface UseSelectedProps {
   nodeRef: MutableRefObject<HTMLDivElement | null>;
@@ -8,12 +9,13 @@ interface UseSelectedProps {
 
 export function useSelected({ nodeRef, nodeId }: UseSelectedProps) {
   const editor = useEditor();
+  const terminal = useTerminal();
   const currentNode = useRef(editor.nodes[nodeId]);
 
   currentNode.current = editor.nodes[nodeId];
 
   useEffect(() => {
-    if (!nodeRef.current) {
+    if (!nodeRef.current || !terminal.elementRef.current) {
       return;
     }
 
@@ -30,6 +32,11 @@ export function useSelected({ nodeRef, nodeId }: UseSelectedProps) {
           if (!isSelected) editor.updateNode({ id: nodeId, isSelected: true });
         }
       } else {
+        // If clicked outside view area (ex. properties panel), don't deselect
+        if (!terminal.elementRef.current?.contains(event.target as HTMLElement)) {
+          return;
+        }
+
         // Clicked outside node
         // Multiple selection with Ctrl; don't unselect this node if other was clicked
         if (event.ctrlKey) {
@@ -46,5 +53,5 @@ export function useSelected({ nodeRef, nodeId }: UseSelectedProps) {
     return () => {
       document.removeEventListener("mousedown", onClick);
     };
-  }, [nodeRef]);
+  }, [nodeRef, terminal.elementRef]);
 }

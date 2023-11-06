@@ -1,12 +1,12 @@
 html,
 body {
-  font-family: sans-serif;
+  cursor: url("./assets/cursor.png") 3 3, pointer;
   margin: 0;
   background: #646464;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  cursor: url("./assets/cursor.png") 3 3, pointer;
+  font-family: sans-serif;
 }
 
 * {

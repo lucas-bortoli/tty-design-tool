@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { PropsWithChildren, RefObject, createContext, useContext, useRef, useState } from "react";
 import { getTextWidth } from "../utils/getTextWidth";
 
 type Setter<T> = (newVal: T) => void;
@@ -16,6 +16,8 @@ interface TerminalContext {
   // computed
   columnWidth: number;
   rowHeight: number;
+
+  elementRef: RefObject<HTMLDivElement>;
 }
 
 const TerminalContext = createContext<TerminalContext | null>(null);
@@ -27,8 +29,10 @@ export function TerminalProvider(props: PropsWithChildren) {
   const [rows, setRows] = useState(24);
   const [fontSize, setFontSize] = useState(12);
   const [fontFamily, setFontFamily] = useState("monospace");
+  const elementRef = useRef<HTMLDivElement>(null);
 
   const value: TerminalContext = {
+    elementRef,
     columns,
     setColumns,
     rows,

@@ -1,8 +1,8 @@
-import { PropertiesPanel } from "./components/PropertiesPanel";
+import { PropertiesPanel } from "./components/PropertiesPanel/PropertiesPanel";
 import { Terminal } from "./components/Terminal";
 import styled from "styled-components";
 import { TerminalProvider } from "./components/TerminalContext";
-import { useEditor } from "./components/EditorContext";
+import { useEditor } from "./components/Node/EditorContext";
 import { useEffect } from "react";
 
 const StyledApp = styled.div`

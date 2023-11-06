@@ -1,5 +1,5 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { Point, Size } from "../utils/Dimensions";
+import { Point, Size } from "../../utils/Dimensions";
 
 interface BaseNodeData {
   id: number;
@@ -31,6 +31,7 @@ interface EditorContext {
   nodes: { [id: NodeId]: NodeData };
   updateNode(data: Partial<NodeData> & { id: NodeId }): void;
   createNode(data: NodeDataWithoutId): void;
+  getSelectedNodes(): NodeData[];
 }
 
 let _nodeIdAcc: NodeId = 1000;
@@ -61,6 +62,9 @@ export function EditorProvider(props: PropsWithChildren) {
       };
 
       setNodes(nodes => ({ ...nodes, [id]: data }));
+    },
+    getSelectedNodes() {
+      return Object.values(nodes).filter(node => node.isSelected);
     }
   };
 
