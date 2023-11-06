@@ -62,6 +62,7 @@ export function App() {
         <PanView>
           <Terminal />
         </PanView>
+        <PropertiesPanel />
       </TerminalProvider>
     </StyledApp>
   );

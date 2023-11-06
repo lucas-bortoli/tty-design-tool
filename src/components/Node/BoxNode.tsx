@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useDrag } from "./hooks/useDrag";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useResize } from "./hooks/useResize";
 import { useTerminal } from "../TerminalContext";
 import { useSelected } from "./hooks/useSelected";
