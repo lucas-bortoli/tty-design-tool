@@ -29,8 +29,8 @@ const TerminalContext = createContext<TerminalContext | null>(null);
 export const useTerminal = () => useContext(TerminalContext)!;
 
 export function TerminalProvider(props: PropsWithChildren) {
-  const [columns, setColumns] = useState(80);
-  const [rows, setRows] = useState(24);
+  const [columns, setColumns] = useState(140);
+  const [rows, setRows] = useState(45);
   const [fontSize, setFontSize] = useState(12);
   const [fontFamily, setFontFamily] = useState("monospace");
   const [colorScheme, setColorScheme] = useState(defaultScheme);

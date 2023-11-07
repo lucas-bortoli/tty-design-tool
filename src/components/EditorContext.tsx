@@ -35,8 +35,9 @@ interface EditorContext {
    */
   nodes: { [id: NodeId]: NodeData };
   updateNode(data: Partial<NodeData> & { id: NodeId }): void;
-  createNode(data: NodeDataWithoutId): void;
+  createNode(data: NodeDataWithoutId): NodeData;
   getSelectedNodes(): NodeData[];
+  clearSelectedNodes(): void;
 }
 
 let _nodeIdAcc: NodeId = 1000;
@@ -65,10 +66,19 @@ export function EditorProvider(props: PropsWithChildren) {
       };
 
       setNodes(nodes => ({ ...nodes, [id]: data }));
+
+      return data;
     },
     getSelectedNodes() {
       return Object.values(nodes).filter(node => node.isSelected);
-    }
+    },
+    clearSelectedNodes() {
+      setNodes(nodes =>
+        Object.fromEntries(
+          Object.entries(nodes).map(([id, node]) => [id, { ...node, isSelected: false }])
+        )
+      );
+    },
   };
 
   return <EditorContext.Provider value={value}>{props.children}</EditorContext.Provider>;

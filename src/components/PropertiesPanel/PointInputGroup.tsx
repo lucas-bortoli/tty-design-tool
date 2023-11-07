@@ -5,7 +5,7 @@ import { clamp } from "../../utils/clamp";
 
 const HorizontalGroup = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 2px;
 
   input {
     width: 100%;

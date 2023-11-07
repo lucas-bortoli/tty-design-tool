@@ -4,7 +4,7 @@ import { useEditor } from "../EditorContext";
 import { Panel } from "../Panel";
 import { useTerminal } from "../TerminalContext";
 import { PointInputGroup, SizeInputGroup } from "./PointInputGroup";
-import { TextInput } from "./TypedInput";
+import { Select, TextInput } from "./TypedInput";
 import { SchemeColorPicker } from "../SchemeColorPicker";
 
 const PanelWithStyles = styled(Panel)`
@@ -12,14 +12,14 @@ const PanelWithStyles = styled(Panel)`
     outline: none;
   }
 
-  input {
+  :is(input, select) {
     padding: 0.5em;
     background: #f0f0f0;
     border: 1px solid transparent;
     width: 100%;
   }
 
-  input:focus-within {
+  :is(input, select):focus-within {
     border-color: #ccc;
   }
 `;
@@ -67,7 +67,8 @@ export function PropertiesPanel() {
                 onChange={color =>
                   editor.updateNode({ id: selectedNode.id, backgroundColor: color })
                 }
-              /> | Fg
+              />{" "}
+              | Fg
               <SchemeColorPicker
                 color={selectedNode.foregroundColor}
                 onChange={color =>
@@ -83,6 +84,13 @@ export function PropertiesPanel() {
                     <TextInput
                       value={selectedNode.content}
                       onChange={content => editor.updateNode({ id: selectedNode.id, content })}
+                    />
+                    <Select<"center" | "start" | "end">
+                      items={{ start: "Start", center: "Center", end: "End" }}
+                      value={selectedNode.justifyContent}
+                      onChange={mode =>
+                        editor.updateNode({ id: selectedNode.id, justifyContent: mode })
+                      }
                     />
                   </details>
                 );
