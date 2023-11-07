@@ -6,10 +6,9 @@ import { useTerminal } from "../TerminalContext";
 import { useSelected } from "./hooks/useSelected";
 import { ResizeHandle } from "./ResizeHandle";
 import { BoxNodeData, useEditor } from "../EditorContext";
+import { getColorFromScheme } from "../types/ColorScheme";
 
 const BoxNodeStyle = styled.div`
-  background: #8f5f9d;
-  color: #fff;
   user-select: none;
   white-space: pre;
 
@@ -102,6 +101,8 @@ export function BoxNode({ data }: Readonly<BoxNodeProps>) {
         top: data.position.y * term.rowHeight,
         width: data.size.width * term.columnWidth,
         height: data.size.height * term.rowHeight,
+        background: getColorFromScheme(term.colorScheme, data.backgroundColor),
+        color: getColorFromScheme(term.colorScheme, data.foregroundColor),
       }}>
       {createBoxText(data.size.width, data.size.height)}
       <ResizeHandle className="resizeHandle" ref={$resizeHandleRef} />
